@@ -14,7 +14,7 @@ import javax.persistence.Id;
 
 //@Data
 //@EqualsAndHashCode
-@Entity
+@Entity(name = "todo")
 public class TodoItem implements Serializable {
 
     private static final long serialVersionUID = 1597643856L;
@@ -30,7 +30,7 @@ public class TodoItem implements Serializable {
     @Column
     private boolean completed;
 
-    @Column(name = "completed_at")
+    @Column(name = "created_at")
     private Date createdAt;
 
     @Column(name = "updated_at")
