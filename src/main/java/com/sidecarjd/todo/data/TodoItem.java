@@ -20,7 +20,7 @@ public class TodoItem implements Serializable {
     private static final long serialVersionUID = 1597643856L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 

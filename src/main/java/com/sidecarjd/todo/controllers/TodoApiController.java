@@ -1,6 +1,7 @@
 package com.sidecarjd.todo.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.sidecarjd.todo.data.TodoItem;
 import com.sidecarjd.todo.services.TodoItemService;
@@ -35,6 +36,16 @@ public class TodoApiController {
         return response;
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/todos/{id}")
+    public ResponseEntity<TodoItem> getTodoItem(@PathVariable Long id, @RequestBody TodoItem requestTodoItem) {
+        Optional<TodoItem> todoItem = todoService.findById(id);
+        if (!todoItem.isPresent()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(todoItem.get(), HttpStatus.OK);
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/todos")
     public ResponseEntity<TodoItem> createTodoItem(@RequestBody TodoItem requestTodoItem) {
         TodoItem responseTodoItem = todoService.create(requestTodoItem);
@@ -45,7 +56,7 @@ public class TodoApiController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/todos/{id}")
     public ResponseEntity<TodoItem> updateTodoItem(@PathVariable Long id, @RequestBody TodoItem requestTodoItem) {
-        TodoItem responseTodoItem = todoService.update(requestTodoItem);
+        TodoItem responseTodoItem = todoService.update(id, requestTodoItem);
 
         return new ResponseEntity<>(responseTodoItem, HttpStatus.OK);
     }

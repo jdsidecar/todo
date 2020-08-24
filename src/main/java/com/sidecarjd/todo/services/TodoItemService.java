@@ -32,9 +32,17 @@ public class TodoItemService {
         return todoRepo.save(todoItem);
     }
 
-    public TodoItem update(TodoItem todoItem) {
-        todoItem.setUpdatedAt(new Date());
+    public TodoItem update(Long id, TodoItem todoItem) {
+        Optional<TodoItem> savedTodoItem = findById(id);
+        if (!savedTodoItem.isPresent()) {
+            return null;
+        }
 
-        return todoRepo.save(todoItem);
+        TodoItem saved = savedTodoItem.get();
+        saved.setUpdatedAt(new Date());
+        saved.setText(todoItem.getText());
+        saved.setCompleted(todoItem.isCompleted());
+        
+        return todoRepo.save(saved);
     }
 }
